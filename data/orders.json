@@ -1,0 +1,1441 @@
+[
+  {
+    "orderId": "1234",
+    "orderNumber": "#1234",
+    "createdAt": "2026-07-28T14:22:00Z",
+    "confirmedAt": "2026-07-28T14:23:10Z",
+    "updatedAt": "2026-07-31T09:00:00Z",
+    "status": "confirmed",
+    "fulfillmentStatus": "awaiting_pick",
+    "channel": "web",
+    "customerId": "CUST-4401",
+    "customerEmail": "alex.rivera@example.com",
+    "warehouseId": "WH-EAST",
+    "currency": "USD",
+    "subtotalCents": 14997,
+    "shippingCents": 599,
+    "taxCents": 1200,
+    "totalCents": 16796,
+    "shippingAddress": {
+      "name": "Alex Rivera",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Brooklyn",
+      "state": "NY",
+      "postalCode": "11201",
+      "country": "US",
+      "addressVerified": true
+    },
+    "billingAddress": {
+      "name": "Alex Rivera",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Brooklyn",
+      "state": "NY",
+      "postalCode": "11201",
+      "country": "US",
+      "addressVerified": true
+    },
+    "lineItems": [
+      {
+        "lineId": "1234-L1",
+        "sku": "SKU-TEE-001",
+        "quantity": 2,
+        "unitPriceCents": 2999,
+        "name": "Classic Cotton Tee"
+      },
+      {
+        "lineId": "1234-L2",
+        "sku": "SKU-SNK-100",
+        "quantity": 1,
+        "unitPriceCents": 8999,
+        "name": "Everyday Sneaker"
+      }
+    ],
+    "holdCodes": [],
+    "tags": [
+      "demo-primary",
+      "sla-risk"
+    ],
+    "notes": null
+  },
+  {
+    "orderId": "1001",
+    "orderNumber": "#1001",
+    "createdAt": "2026-07-10T10:15:00Z",
+    "confirmedAt": "2026-07-10T11:15:00Z",
+    "updatedAt": "2026-07-13T10:15:00Z",
+    "cancelledAt": null,
+    "status": "confirmed",
+    "fulfillmentStatus": "shipped",
+    "channel": "mobile",
+    "customerId": "CUST-4500",
+    "customerEmail": "customer1001@example.com",
+    "warehouseId": "WH-WEST",
+    "currency": "USD",
+    "subtotalCents": 8998,
+    "shippingCents": 599,
+    "taxCents": 720,
+    "totalCents": 10317,
+    "shippingAddress": {
+      "name": "Customer 1001",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Seattle",
+      "state": "WA",
+      "postalCode": "98101",
+      "country": "US",
+      "addressVerified": true
+    },
+    "billingAddress": {
+      "name": "Customer 1001",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Seattle",
+      "state": "WA",
+      "postalCode": "98101",
+      "country": "US",
+      "addressVerified": true
+    },
+    "lineItems": [
+      {
+        "lineId": "1001-L1",
+        "sku": "SKU-HDY-010",
+        "quantity": 1,
+        "unitPriceCents": 6999,
+        "name": "Fleece Hoodie"
+      },
+      {
+        "lineId": "1001-L2",
+        "sku": "SKU-HAT-210",
+        "quantity": 1,
+        "unitPriceCents": 1999,
+        "name": "Wool Beanie"
+      }
+    ],
+    "holdCodes": [],
+    "tags": [
+      "happy_shipped"
+    ],
+    "notes": null
+  },
+  {
+    "orderId": "1002",
+    "orderNumber": "#1002",
+    "createdAt": "2026-07-11T11:15:00Z",
+    "confirmedAt": "2026-07-11T12:15:00Z",
+    "updatedAt": "2026-07-14T11:15:00Z",
+    "cancelledAt": null,
+    "status": "confirmed",
+    "fulfillmentStatus": "shipped",
+    "channel": "web",
+    "customerId": "CUST-4501",
+    "customerEmail": "customer1002@example.com",
+    "warehouseId": "WH-WEST",
+    "currency": "USD",
+    "subtotalCents": 23998,
+    "shippingCents": 599,
+    "taxCents": 1920,
+    "totalCents": 26517,
+    "shippingAddress": {
+      "name": "Customer 1002",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Austin",
+      "state": "TX",
+      "postalCode": "78701",
+      "country": "US",
+      "addressVerified": true
+    },
+    "billingAddress": {
+      "name": "Customer 1002",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Austin",
+      "state": "TX",
+      "postalCode": "78701",
+      "country": "US",
+      "addressVerified": true
+    },
+    "lineItems": [
+      {
+        "lineId": "1002-L1",
+        "sku": "SKU-JKT-020",
+        "quantity": 2,
+        "unitPriceCents": 11999,
+        "name": "Lightweight Shell Jacket"
+      }
+    ],
+    "holdCodes": [],
+    "tags": [
+      "happy_in_transit"
+    ],
+    "notes": null
+  },
+  {
+    "orderId": "1003",
+    "orderNumber": "#1003",
+    "createdAt": "2026-07-12T12:15:00Z",
+    "confirmedAt": "2026-07-12T13:15:00Z",
+    "updatedAt": "2026-07-15T12:15:00Z",
+    "cancelledAt": null,
+    "status": "completed",
+    "fulfillmentStatus": "delivered",
+    "channel": "web",
+    "customerId": "CUST-4502",
+    "customerEmail": "customer1003@example.com",
+    "warehouseId": "WH-CENTRAL",
+    "currency": "USD",
+    "subtotalCents": 8498,
+    "shippingCents": 599,
+    "taxCents": 680,
+    "totalCents": 9777,
+    "shippingAddress": {
+      "name": "Customer 1003",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Denver",
+      "state": "CO",
+      "postalCode": "80202",
+      "country": "US",
+      "addressVerified": true
+    },
+    "billingAddress": {
+      "name": "Customer 1003",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Denver",
+      "state": "CO",
+      "postalCode": "80202",
+      "country": "US",
+      "addressVerified": true
+    },
+    "lineItems": [
+      {
+        "lineId": "1003-L1",
+        "sku": "SKU-PNT-030",
+        "quantity": 1,
+        "unitPriceCents": 5999,
+        "name": "Chino Pants"
+      },
+      {
+        "lineId": "1003-L2",
+        "sku": "SKU-SOC-220",
+        "quantity": 1,
+        "unitPriceCents": 2499,
+        "name": "Merino Crew Socks (3-pack)"
+      }
+    ],
+    "holdCodes": [],
+    "tags": [
+      "happy_delivered"
+    ],
+    "notes": null
+  },
+  {
+    "orderId": "1004",
+    "orderNumber": "#1004",
+    "createdAt": "2026-07-13T13:15:00Z",
+    "confirmedAt": null,
+    "updatedAt": "2026-07-16T13:15:00Z",
+    "cancelledAt": null,
+    "status": "payment_failed",
+    "fulfillmentStatus": "not_started",
+    "channel": "mobile",
+    "customerId": "CUST-4503",
+    "customerEmail": "customer1004@example.com",
+    "warehouseId": "WH-WEST",
+    "currency": "USD",
+    "subtotalCents": 21998,
+    "shippingCents": 599,
+    "taxCents": 1760,
+    "totalCents": 24357,
+    "shippingAddress": {
+      "name": "Customer 1004",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Chicago",
+      "state": "IL",
+      "postalCode": "60601",
+      "country": "US",
+      "addressVerified": true
+    },
+    "billingAddress": {
+      "name": "Customer 1004",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Chicago",
+      "state": "IL",
+      "postalCode": "60601",
+      "country": "US",
+      "addressVerified": true
+    },
+    "lineItems": [
+      {
+        "lineId": "1004-L1",
+        "sku": "SKU-SNK-101",
+        "quantity": 2,
+        "unitPriceCents": 10999,
+        "name": "Trail Runner"
+      }
+    ],
+    "holdCodes": [
+      "PAYMENT_FAILED"
+    ],
+    "tags": [
+      "payment_failed"
+    ],
+    "notes": null
+  },
+  {
+    "orderId": "1005",
+    "orderNumber": "#1005",
+    "createdAt": "2026-07-14T14:15:00Z",
+    "confirmedAt": "2026-07-14T15:15:00Z",
+    "updatedAt": "2026-07-17T14:15:00Z",
+    "cancelledAt": null,
+    "status": "on_hold",
+    "fulfillmentStatus": "on_hold",
+    "channel": "web",
+    "customerId": "CUST-4504",
+    "customerEmail": "customer1005@example.com",
+    "warehouseId": "WH-EAST",
+    "currency": "USD",
+    "subtotalCents": 11498,
+    "shippingCents": 599,
+    "taxCents": 920,
+    "totalCents": 13017,
+    "shippingAddress": {
+      "name": "Customer 1005",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Miami",
+      "state": "FL",
+      "postalCode": "33101",
+      "country": "US",
+      "addressVerified": false
+    },
+    "billingAddress": {
+      "name": "Customer 1005",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Miami",
+      "state": "FL",
+      "postalCode": "33101",
+      "country": "US",
+      "addressVerified": true
+    },
+    "lineItems": [
+      {
+        "lineId": "1005-L1",
+        "sku": "SKU-BAG-200",
+        "quantity": 1,
+        "unitPriceCents": 7999,
+        "name": "Weekender Duffel"
+      },
+      {
+        "lineId": "1005-L2",
+        "sku": "SKU-BOT-300",
+        "quantity": 1,
+        "unitPriceCents": 3499,
+        "name": "Insulated Water Bottle 32oz"
+      }
+    ],
+    "holdCodes": [
+      "ADDRESS_VERIFICATION"
+    ],
+    "tags": [
+      "address_verification"
+    ],
+    "notes": "AVS mismatch on street number"
+  },
+  {
+    "orderId": "1006",
+    "orderNumber": "#1006",
+    "createdAt": "2026-07-15T15:15:00Z",
+    "confirmedAt": "2026-07-15T16:15:00Z",
+    "updatedAt": "2026-07-18T15:15:00Z",
+    "cancelledAt": null,
+    "status": "on_hold",
+    "fulfillmentStatus": "on_hold",
+    "channel": "web",
+    "customerId": "CUST-4505",
+    "customerEmail": "customer1006@example.com",
+    "warehouseId": "WH-WEST",
+    "currency": "USD",
+    "subtotalCents": 8998,
+    "shippingCents": 599,
+    "taxCents": 720,
+    "totalCents": 10317,
+    "shippingAddress": {
+      "name": "Customer 1006",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Portland",
+      "state": "OR",
+      "postalCode": "97201",
+      "country": "US",
+      "addressVerified": true
+    },
+    "billingAddress": {
+      "name": "Customer 1006",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Portland",
+      "state": "OR",
+      "postalCode": "97201",
+      "country": "US",
+      "addressVerified": true
+    },
+    "lineItems": [
+      {
+        "lineId": "1006-L1",
+        "sku": "SKU-YGA-310",
+        "quantity": 2,
+        "unitPriceCents": 4499,
+        "name": "Yoga Mat Pro"
+      }
+    ],
+    "holdCodes": [
+      "FRAUD_REVIEW"
+    ],
+    "tags": [
+      "fraud_review"
+    ],
+    "notes": null
+  },
+  {
+    "orderId": "1007",
+    "orderNumber": "#1007",
+    "createdAt": "2026-07-16T16:15:00Z",
+    "confirmedAt": "2026-07-16T17:15:00Z",
+    "updatedAt": "2026-07-19T16:15:00Z",
+    "cancelledAt": null,
+    "status": "confirmed",
+    "fulfillmentStatus": "shipped",
+    "channel": "mobile",
+    "customerId": "CUST-4506",
+    "customerEmail": "customer1007@example.com",
+    "warehouseId": "WH-CENTRAL",
+    "currency": "USD",
+    "subtotalCents": 6798,
+    "shippingCents": 599,
+    "taxCents": 544,
+    "totalCents": 7941,
+    "shippingAddress": {
+      "name": "Customer 1007",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Boston",
+      "state": "MA",
+      "postalCode": "02108",
+      "country": "US",
+      "addressVerified": true
+    },
+    "billingAddress": {
+      "name": "Customer 1007",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Boston",
+      "state": "MA",
+      "postalCode": "02108",
+      "country": "US",
+      "addressVerified": true
+    },
+    "lineItems": [
+      {
+        "lineId": "1007-L1",
+        "sku": "SKU-MUG-320",
+        "quantity": 1,
+        "unitPriceCents": 1799,
+        "name": "Ceramic Camp Mug"
+      },
+      {
+        "lineId": "1007-L2",
+        "sku": "SKU-CHG-410",
+        "quantity": 1,
+        "unitPriceCents": 4999,
+        "name": "USB-C GaN Charger 65W"
+      }
+    ],
+    "holdCodes": [],
+    "tags": [
+      "carrier_delay"
+    ],
+    "notes": null
+  },
+  {
+    "orderId": "1008",
+    "orderNumber": "#1008",
+    "createdAt": "2026-07-17T17:15:00Z",
+    "confirmedAt": "2026-07-17T18:15:00Z",
+    "updatedAt": "2026-07-20T17:15:00Z",
+    "cancelledAt": null,
+    "status": "confirmed",
+    "fulfillmentStatus": "awaiting_inventory",
+    "channel": "web",
+    "customerId": "CUST-4507",
+    "customerEmail": "customer1008@example.com",
+    "warehouseId": "WH-EAST",
+    "currency": "USD",
+    "subtotalCents": 5998,
+    "shippingCents": 599,
+    "taxCents": 480,
+    "totalCents": 7077,
+    "shippingAddress": {
+      "name": "Customer 1008",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Phoenix",
+      "state": "AZ",
+      "postalCode": "85001",
+      "country": "US",
+      "addressVerified": true
+    },
+    "billingAddress": {
+      "name": "Customer 1008",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Phoenix",
+      "state": "AZ",
+      "postalCode": "85001",
+      "country": "US",
+      "addressVerified": true
+    },
+    "lineItems": [
+      {
+        "lineId": "1008-L1",
+        "sku": "SKU-LPT-400",
+        "quantity": 2,
+        "unitPriceCents": 2999,
+        "name": "Laptop Sleeve 14\""
+      }
+    ],
+    "holdCodes": [
+      "OUT_OF_STOCK"
+    ],
+    "tags": [
+      "out_of_stock"
+    ],
+    "notes": null
+  },
+  {
+    "orderId": "1009",
+    "orderNumber": "#1009",
+    "createdAt": "2026-07-18T10:15:00Z",
+    "confirmedAt": "2026-07-18T11:15:00Z",
+    "updatedAt": "2026-07-21T10:15:00Z",
+    "cancelledAt": "2026-07-18T15:15:00Z",
+    "status": "cancelled",
+    "fulfillmentStatus": "cancelled",
+    "channel": "web",
+    "customerId": "CUST-4508",
+    "customerEmail": "customer1009@example.com",
+    "warehouseId": "WH-WEST",
+    "currency": "USD",
+    "subtotalCents": 5998,
+    "shippingCents": 599,
+    "taxCents": 480,
+    "totalCents": 7077,
+    "shippingAddress": {
+      "name": "Customer 1009",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Atlanta",
+      "state": "GA",
+      "postalCode": "30301",
+      "country": "US",
+      "addressVerified": true
+    },
+    "billingAddress": {
+      "name": "Customer 1009",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Atlanta",
+      "state": "GA",
+      "postalCode": "30301",
+      "country": "US",
+      "addressVerified": true
+    },
+    "lineItems": [
+      {
+        "lineId": "1009-L1",
+        "sku": "SKU-TEE-002",
+        "quantity": 1,
+        "unitPriceCents": 3499,
+        "name": "Premium V-Neck Tee"
+      },
+      {
+        "lineId": "1009-L2",
+        "sku": "SKU-SOC-220",
+        "quantity": 1,
+        "unitPriceCents": 2499,
+        "name": "Merino Crew Socks (3-pack)"
+      }
+    ],
+    "holdCodes": [],
+    "tags": [
+      "cancelled"
+    ],
+    "notes": null
+  },
+  {
+    "orderId": "1010",
+    "orderNumber": "#1010",
+    "createdAt": "2026-07-19T11:15:00Z",
+    "confirmedAt": "2026-07-19T12:15:00Z",
+    "updatedAt": "2026-07-22T11:15:00Z",
+    "cancelledAt": null,
+    "status": "returned",
+    "fulfillmentStatus": "returned",
+    "channel": "mobile",
+    "customerId": "CUST-4509",
+    "customerEmail": "customer1010@example.com",
+    "warehouseId": "WH-CENTRAL",
+    "currency": "USD",
+    "subtotalCents": 13998,
+    "shippingCents": 599,
+    "taxCents": 1120,
+    "totalCents": 15717,
+    "shippingAddress": {
+      "name": "Customer 1010",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "San Diego",
+      "state": "CA",
+      "postalCode": "92101",
+      "country": "US",
+      "addressVerified": true
+    },
+    "billingAddress": {
+      "name": "Customer 1010",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "San Diego",
+      "state": "CA",
+      "postalCode": "92101",
+      "country": "US",
+      "addressVerified": true
+    },
+    "lineItems": [
+      {
+        "lineId": "1010-L1",
+        "sku": "SKU-HDY-010",
+        "quantity": 2,
+        "unitPriceCents": 6999,
+        "name": "Fleece Hoodie"
+      }
+    ],
+    "holdCodes": [],
+    "tags": [
+      "returned"
+    ],
+    "notes": null
+  },
+  {
+    "orderId": "1011",
+    "orderNumber": "#1011",
+    "createdAt": "2026-07-20T12:15:00Z",
+    "confirmedAt": "2026-07-20T13:15:00Z",
+    "updatedAt": "2026-07-23T12:15:00Z",
+    "cancelledAt": null,
+    "status": "confirmed",
+    "fulfillmentStatus": "shipped",
+    "channel": "web",
+    "customerId": "CUST-4510",
+    "customerEmail": "customer1011@example.com",
+    "warehouseId": "WH-EAST",
+    "currency": "USD",
+    "subtotalCents": 11498,
+    "shippingCents": 599,
+    "taxCents": 920,
+    "totalCents": 13017,
+    "shippingAddress": {
+      "name": "Customer 1011",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Seattle",
+      "state": "WA",
+      "postalCode": "98101",
+      "country": "US",
+      "addressVerified": true
+    },
+    "billingAddress": {
+      "name": "Customer 1011",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Seattle",
+      "state": "WA",
+      "postalCode": "98101",
+      "country": "US",
+      "addressVerified": true
+    },
+    "lineItems": [
+      {
+        "lineId": "1011-L1",
+        "sku": "SKU-SNK-100",
+        "quantity": 1,
+        "unitPriceCents": 8999,
+        "name": "Everyday Sneaker"
+      },
+      {
+        "lineId": "1011-L2",
+        "sku": "SKU-SOC-220",
+        "quantity": 1,
+        "unitPriceCents": 2499,
+        "name": "Merino Crew Socks (3-pack)"
+      }
+    ],
+    "holdCodes": [],
+    "tags": [
+      "happy_shipped"
+    ],
+    "notes": null
+  },
+  {
+    "orderId": "1012",
+    "orderNumber": "#1012",
+    "createdAt": "2026-07-21T13:15:00Z",
+    "confirmedAt": "2026-07-21T14:15:00Z",
+    "updatedAt": "2026-07-24T13:15:00Z",
+    "cancelledAt": null,
+    "status": "confirmed",
+    "fulfillmentStatus": "label_purchased",
+    "channel": "web",
+    "customerId": "CUST-4511",
+    "customerEmail": "customer1012@example.com",
+    "warehouseId": "WH-WEST",
+    "currency": "USD",
+    "subtotalCents": 6998,
+    "shippingCents": 599,
+    "taxCents": 560,
+    "totalCents": 8157,
+    "shippingAddress": {
+      "name": "Customer 1012",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Austin",
+      "state": "TX",
+      "postalCode": "78701",
+      "country": "US",
+      "addressVerified": true
+    },
+    "billingAddress": {
+      "name": "Customer 1012",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Austin",
+      "state": "TX",
+      "postalCode": "78701",
+      "country": "US",
+      "addressVerified": true
+    },
+    "lineItems": [
+      {
+        "lineId": "1012-L1",
+        "sku": "SKU-BOT-300",
+        "quantity": 2,
+        "unitPriceCents": 3499,
+        "name": "Insulated Water Bottle 32oz"
+      }
+    ],
+    "holdCodes": [],
+    "tags": [
+      "happy_label_purchased"
+    ],
+    "notes": null
+  },
+  {
+    "orderId": "1013",
+    "orderNumber": "#1013",
+    "createdAt": "2026-07-22T14:15:00Z",
+    "confirmedAt": null,
+    "updatedAt": "2026-07-25T14:15:00Z",
+    "cancelledAt": null,
+    "status": "payment_failed",
+    "fulfillmentStatus": "not_started",
+    "channel": "mobile",
+    "customerId": "CUST-4512",
+    "customerEmail": "customer1013@example.com",
+    "warehouseId": "WH-CENTRAL",
+    "currency": "USD",
+    "subtotalCents": 13998,
+    "shippingCents": 599,
+    "taxCents": 1120,
+    "totalCents": 15717,
+    "shippingAddress": {
+      "name": "Customer 1013",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Denver",
+      "state": "CO",
+      "postalCode": "80202",
+      "country": "US",
+      "addressVerified": true
+    },
+    "billingAddress": {
+      "name": "Customer 1013",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Denver",
+      "state": "CO",
+      "postalCode": "80202",
+      "country": "US",
+      "addressVerified": true
+    },
+    "lineItems": [
+      {
+        "lineId": "1013-L1",
+        "sku": "SKU-JKT-020",
+        "quantity": 1,
+        "unitPriceCents": 11999,
+        "name": "Lightweight Shell Jacket"
+      },
+      {
+        "lineId": "1013-L2",
+        "sku": "SKU-HAT-210",
+        "quantity": 1,
+        "unitPriceCents": 1999,
+        "name": "Wool Beanie"
+      }
+    ],
+    "holdCodes": [
+      "PAYMENT_FAILED"
+    ],
+    "tags": [
+      "payment_failed"
+    ],
+    "notes": null
+  },
+  {
+    "orderId": "1014",
+    "orderNumber": "#1014",
+    "createdAt": "2026-07-23T15:15:00Z",
+    "confirmedAt": "2026-07-23T16:15:00Z",
+    "updatedAt": "2026-07-26T15:15:00Z",
+    "cancelledAt": null,
+    "status": "confirmed",
+    "fulfillmentStatus": "shipped",
+    "channel": "web",
+    "customerId": "CUST-4513",
+    "customerEmail": "customer1014@example.com",
+    "warehouseId": "WH-WEST",
+    "currency": "USD",
+    "subtotalCents": 11998,
+    "shippingCents": 599,
+    "taxCents": 960,
+    "totalCents": 13557,
+    "shippingAddress": {
+      "name": "Customer 1014",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Chicago",
+      "state": "IL",
+      "postalCode": "60601",
+      "country": "US",
+      "addressVerified": true
+    },
+    "billingAddress": {
+      "name": "Customer 1014",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Chicago",
+      "state": "IL",
+      "postalCode": "60601",
+      "country": "US",
+      "addressVerified": true
+    },
+    "lineItems": [
+      {
+        "lineId": "1014-L1",
+        "sku": "SKU-PNT-030",
+        "quantity": 2,
+        "unitPriceCents": 5999,
+        "name": "Chino Pants"
+      }
+    ],
+    "holdCodes": [],
+    "tags": [
+      "carrier_delay"
+    ],
+    "notes": null
+  },
+  {
+    "orderId": "1015",
+    "orderNumber": "#1015",
+    "createdAt": "2026-07-24T16:15:00Z",
+    "confirmedAt": "2026-07-24T17:15:00Z",
+    "updatedAt": "2026-07-27T16:15:00Z",
+    "cancelledAt": null,
+    "status": "confirmed",
+    "fulfillmentStatus": "awaiting_inventory",
+    "channel": "web",
+    "customerId": "CUST-4514",
+    "customerEmail": "customer1015@example.com",
+    "warehouseId": "WH-CENTRAL",
+    "currency": "USD",
+    "subtotalCents": 7999,
+    "shippingCents": 599,
+    "taxCents": 640,
+    "totalCents": 9238,
+    "shippingAddress": {
+      "name": "Customer 1015",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Miami",
+      "state": "FL",
+      "postalCode": "33101",
+      "country": "US",
+      "addressVerified": true
+    },
+    "billingAddress": {
+      "name": "Customer 1015",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Miami",
+      "state": "FL",
+      "postalCode": "33101",
+      "country": "US",
+      "addressVerified": true
+    },
+    "lineItems": [
+      {
+        "lineId": "1015-L1",
+        "sku": "SKU-BAG-200",
+        "quantity": 1,
+        "unitPriceCents": 7999,
+        "name": "Weekender Duffel"
+      }
+    ],
+    "holdCodes": [
+      "OUT_OF_STOCK"
+    ],
+    "tags": [
+      "out_of_stock"
+    ],
+    "notes": null
+  },
+  {
+    "orderId": "1016",
+    "orderNumber": "#1016",
+    "createdAt": "2026-07-25T17:15:00Z",
+    "confirmedAt": "2026-07-25T18:15:00Z",
+    "updatedAt": "2026-07-28T17:15:00Z",
+    "cancelledAt": null,
+    "status": "completed",
+    "fulfillmentStatus": "delivered",
+    "channel": "mobile",
+    "customerId": "CUST-4515",
+    "customerEmail": "customer1016@example.com",
+    "warehouseId": "WH-EAST",
+    "currency": "USD",
+    "subtotalCents": 15996,
+    "shippingCents": 599,
+    "taxCents": 1280,
+    "totalCents": 17875,
+    "shippingAddress": {
+      "name": "Customer 1016",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Portland",
+      "state": "OR",
+      "postalCode": "97201",
+      "country": "US",
+      "addressVerified": true
+    },
+    "billingAddress": {
+      "name": "Customer 1016",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Portland",
+      "state": "OR",
+      "postalCode": "97201",
+      "country": "US",
+      "addressVerified": true
+    },
+    "lineItems": [
+      {
+        "lineId": "1016-L1",
+        "sku": "SKU-CHG-410",
+        "quantity": 2,
+        "unitPriceCents": 4999,
+        "name": "USB-C GaN Charger 65W"
+      },
+      {
+        "lineId": "1016-L2",
+        "sku": "SKU-LPT-400",
+        "quantity": 2,
+        "unitPriceCents": 2999,
+        "name": "Laptop Sleeve 14\""
+      }
+    ],
+    "holdCodes": [],
+    "tags": [
+      "happy_delivered"
+    ],
+    "notes": null
+  },
+  {
+    "orderId": "1017",
+    "orderNumber": "#1017",
+    "createdAt": "2026-07-26T10:15:00Z",
+    "confirmedAt": "2026-07-26T11:15:00Z",
+    "updatedAt": "2026-07-29T10:15:00Z",
+    "cancelledAt": null,
+    "status": "on_hold",
+    "fulfillmentStatus": "on_hold",
+    "channel": "web",
+    "customerId": "CUST-4516",
+    "customerEmail": "customer1017@example.com",
+    "warehouseId": "WH-EAST",
+    "currency": "USD",
+    "subtotalCents": 2999,
+    "shippingCents": 599,
+    "taxCents": 240,
+    "totalCents": 3838,
+    "shippingAddress": {
+      "name": "Customer 1017",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Boston",
+      "state": "MA",
+      "postalCode": "02108",
+      "country": "US",
+      "addressVerified": true
+    },
+    "billingAddress": {
+      "name": "Customer 1017",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Boston",
+      "state": "MA",
+      "postalCode": "02108",
+      "country": "US",
+      "addressVerified": true
+    },
+    "lineItems": [
+      {
+        "lineId": "1017-L1",
+        "sku": "SKU-TEE-001",
+        "quantity": 1,
+        "unitPriceCents": 2999,
+        "name": "Classic Cotton Tee"
+      }
+    ],
+    "holdCodes": [
+      "FRAUD_REVIEW"
+    ],
+    "tags": [
+      "fraud_review"
+    ],
+    "notes": null
+  },
+  {
+    "orderId": "1018",
+    "orderNumber": "#1018",
+    "createdAt": "2026-07-27T11:15:00Z",
+    "confirmedAt": "2026-07-27T12:15:00Z",
+    "updatedAt": "2026-07-30T11:15:00Z",
+    "cancelledAt": null,
+    "status": "on_hold",
+    "fulfillmentStatus": "on_hold",
+    "channel": "web",
+    "customerId": "CUST-4517",
+    "customerEmail": "customer1018@example.com",
+    "warehouseId": "WH-CENTRAL",
+    "currency": "USD",
+    "subtotalCents": 15996,
+    "shippingCents": 599,
+    "taxCents": 1280,
+    "totalCents": 17875,
+    "shippingAddress": {
+      "name": "Customer 1018",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Phoenix",
+      "state": "AZ",
+      "postalCode": "85001",
+      "country": "US",
+      "addressVerified": false
+    },
+    "billingAddress": {
+      "name": "Customer 1018",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Phoenix",
+      "state": "AZ",
+      "postalCode": "85001",
+      "country": "US",
+      "addressVerified": true
+    },
+    "lineItems": [
+      {
+        "lineId": "1018-L1",
+        "sku": "SKU-YGA-310",
+        "quantity": 2,
+        "unitPriceCents": 4499,
+        "name": "Yoga Mat Pro"
+      },
+      {
+        "lineId": "1018-L2",
+        "sku": "SKU-BOT-300",
+        "quantity": 2,
+        "unitPriceCents": 3499,
+        "name": "Insulated Water Bottle 32oz"
+      }
+    ],
+    "holdCodes": [
+      "ADDRESS_VERIFICATION"
+    ],
+    "tags": [
+      "address_verification"
+    ],
+    "notes": "AVS mismatch on street number"
+  },
+  {
+    "orderId": "1019",
+    "orderNumber": "#1019",
+    "createdAt": "2026-07-10T12:15:00Z",
+    "confirmedAt": "2026-07-10T13:15:00Z",
+    "updatedAt": "2026-07-13T12:15:00Z",
+    "cancelledAt": "2026-07-10T17:15:00Z",
+    "status": "cancelled",
+    "fulfillmentStatus": "cancelled",
+    "channel": "mobile",
+    "customerId": "CUST-4518",
+    "customerEmail": "customer1019@example.com",
+    "warehouseId": "WH-EAST",
+    "currency": "USD",
+    "subtotalCents": 13498,
+    "shippingCents": 599,
+    "taxCents": 1080,
+    "totalCents": 15177,
+    "shippingAddress": {
+      "name": "Customer 1019",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Atlanta",
+      "state": "GA",
+      "postalCode": "30301",
+      "country": "US",
+      "addressVerified": true
+    },
+    "billingAddress": {
+      "name": "Customer 1019",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Atlanta",
+      "state": "GA",
+      "postalCode": "30301",
+      "country": "US",
+      "addressVerified": true
+    },
+    "lineItems": [
+      {
+        "lineId": "1019-L1",
+        "sku": "SKU-SNK-101",
+        "quantity": 1,
+        "unitPriceCents": 10999,
+        "name": "Trail Runner"
+      },
+      {
+        "lineId": "1019-L2",
+        "sku": "SKU-SOC-220",
+        "quantity": 1,
+        "unitPriceCents": 2499,
+        "name": "Merino Crew Socks (3-pack)"
+      }
+    ],
+    "holdCodes": [],
+    "tags": [
+      "cancelled"
+    ],
+    "notes": null
+  },
+  {
+    "orderId": "1020",
+    "orderNumber": "#1020",
+    "createdAt": "2026-07-11T13:15:00Z",
+    "confirmedAt": "2026-07-11T14:15:00Z",
+    "updatedAt": "2026-07-14T13:15:00Z",
+    "cancelledAt": null,
+    "status": "returned",
+    "fulfillmentStatus": "returned",
+    "channel": "web",
+    "customerId": "CUST-4519",
+    "customerEmail": "customer1020@example.com",
+    "warehouseId": "WH-WEST",
+    "currency": "USD",
+    "subtotalCents": 17596,
+    "shippingCents": 599,
+    "taxCents": 1408,
+    "totalCents": 19603,
+    "shippingAddress": {
+      "name": "Customer 1020",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "San Diego",
+      "state": "CA",
+      "postalCode": "92101",
+      "country": "US",
+      "addressVerified": true
+    },
+    "billingAddress": {
+      "name": "Customer 1020",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "San Diego",
+      "state": "CA",
+      "postalCode": "92101",
+      "country": "US",
+      "addressVerified": true
+    },
+    "lineItems": [
+      {
+        "lineId": "1020-L1",
+        "sku": "SKU-HDY-010",
+        "quantity": 2,
+        "unitPriceCents": 6999,
+        "name": "Fleece Hoodie"
+      },
+      {
+        "lineId": "1020-L2",
+        "sku": "SKU-MUG-320",
+        "quantity": 2,
+        "unitPriceCents": 1799,
+        "name": "Ceramic Camp Mug"
+      }
+    ],
+    "holdCodes": [],
+    "tags": [
+      "returned"
+    ],
+    "notes": null
+  },
+  {
+    "orderId": "1021",
+    "orderNumber": "#1021",
+    "createdAt": "2026-07-12T14:15:00Z",
+    "confirmedAt": "2026-07-12T15:15:00Z",
+    "updatedAt": "2026-07-15T14:15:00Z",
+    "cancelledAt": null,
+    "status": "confirmed",
+    "fulfillmentStatus": "shipped",
+    "channel": "web",
+    "customerId": "CUST-4520",
+    "customerEmail": "customer1021@example.com",
+    "warehouseId": "WH-CENTRAL",
+    "currency": "USD",
+    "subtotalCents": 3499,
+    "shippingCents": 599,
+    "taxCents": 280,
+    "totalCents": 4378,
+    "shippingAddress": {
+      "name": "Customer 1021",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Seattle",
+      "state": "WA",
+      "postalCode": "98101",
+      "country": "US",
+      "addressVerified": true
+    },
+    "billingAddress": {
+      "name": "Customer 1021",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Seattle",
+      "state": "WA",
+      "postalCode": "98101",
+      "country": "US",
+      "addressVerified": true
+    },
+    "lineItems": [
+      {
+        "lineId": "1021-L1",
+        "sku": "SKU-TEE-002",
+        "quantity": 1,
+        "unitPriceCents": 3499,
+        "name": "Premium V-Neck Tee"
+      }
+    ],
+    "holdCodes": [],
+    "tags": [
+      "happy_in_transit"
+    ],
+    "notes": null
+  },
+  {
+    "orderId": "1022",
+    "orderNumber": "#1022",
+    "createdAt": "2026-07-13T15:15:00Z",
+    "confirmedAt": "2026-07-13T16:15:00Z",
+    "updatedAt": "2026-07-16T15:15:00Z",
+    "cancelledAt": null,
+    "status": "confirmed",
+    "fulfillmentStatus": "shipped",
+    "channel": "mobile",
+    "customerId": "CUST-4521",
+    "customerEmail": "customer1022@example.com",
+    "warehouseId": "WH-WEST",
+    "currency": "USD",
+    "subtotalCents": 23998,
+    "shippingCents": 599,
+    "taxCents": 1920,
+    "totalCents": 26517,
+    "shippingAddress": {
+      "name": "Customer 1022",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Austin",
+      "state": "TX",
+      "postalCode": "78701",
+      "country": "US",
+      "addressVerified": true
+    },
+    "billingAddress": {
+      "name": "Customer 1022",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Austin",
+      "state": "TX",
+      "postalCode": "78701",
+      "country": "US",
+      "addressVerified": true
+    },
+    "lineItems": [
+      {
+        "lineId": "1022-L1",
+        "sku": "SKU-JKT-020",
+        "quantity": 2,
+        "unitPriceCents": 11999,
+        "name": "Lightweight Shell Jacket"
+      }
+    ],
+    "holdCodes": [],
+    "tags": [
+      "happy_shipped"
+    ],
+    "notes": null
+  },
+  {
+    "orderId": "1023",
+    "orderNumber": "#1023",
+    "createdAt": "2026-07-14T16:15:00Z",
+    "confirmedAt": "2026-07-14T17:15:00Z",
+    "updatedAt": "2026-07-17T16:15:00Z",
+    "cancelledAt": null,
+    "status": "confirmed",
+    "fulfillmentStatus": "label_purchased",
+    "channel": "web",
+    "customerId": "CUST-4522",
+    "customerEmail": "customer1023@example.com",
+    "warehouseId": "WH-EAST",
+    "currency": "USD",
+    "subtotalCents": 7998,
+    "shippingCents": 599,
+    "taxCents": 640,
+    "totalCents": 9237,
+    "shippingAddress": {
+      "name": "Customer 1023",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Denver",
+      "state": "CO",
+      "postalCode": "80202",
+      "country": "US",
+      "addressVerified": true
+    },
+    "billingAddress": {
+      "name": "Customer 1023",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Denver",
+      "state": "CO",
+      "postalCode": "80202",
+      "country": "US",
+      "addressVerified": true
+    },
+    "lineItems": [
+      {
+        "lineId": "1023-L1",
+        "sku": "SKU-PNT-030",
+        "quantity": 1,
+        "unitPriceCents": 5999,
+        "name": "Chino Pants"
+      },
+      {
+        "lineId": "1023-L2",
+        "sku": "SKU-HAT-210",
+        "quantity": 1,
+        "unitPriceCents": 1999,
+        "name": "Wool Beanie"
+      }
+    ],
+    "holdCodes": [],
+    "tags": [
+      "happy_label_purchased"
+    ],
+    "notes": null
+  },
+  {
+    "orderId": "1024",
+    "orderNumber": "#1024",
+    "createdAt": "2026-07-15T17:15:00Z",
+    "confirmedAt": "2026-07-15T18:15:00Z",
+    "updatedAt": "2026-07-18T17:15:00Z",
+    "cancelledAt": null,
+    "status": "completed",
+    "fulfillmentStatus": "delivered",
+    "channel": "web",
+    "customerId": "CUST-4523",
+    "customerEmail": "customer1024@example.com",
+    "warehouseId": "WH-WEST",
+    "currency": "USD",
+    "subtotalCents": 25996,
+    "shippingCents": 599,
+    "taxCents": 2080,
+    "totalCents": 28675,
+    "shippingAddress": {
+      "name": "Customer 1024",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Chicago",
+      "state": "IL",
+      "postalCode": "60601",
+      "country": "US",
+      "addressVerified": true
+    },
+    "billingAddress": {
+      "name": "Customer 1024",
+      "line1": "1847 Market Street",
+      "line2": null,
+      "city": "Chicago",
+      "state": "IL",
+      "postalCode": "60601",
+      "country": "US",
+      "addressVerified": true
+    },
+    "lineItems": [
+      {
+        "lineId": "1024-L1",
+        "sku": "SKU-BAG-200",
+        "quantity": 2,
+        "unitPriceCents": 7999,
+        "name": "Weekender Duffel"
+      },
+      {
+        "lineId": "1024-L2",
+        "sku": "SKU-CHG-410",
+        "quantity": 2,
+        "unitPriceCents": 4999,
+        "name": "USB-C GaN Charger 65W"
+      }
+    ],
+    "holdCodes": [],
+    "tags": [
+      "happy_delivered"
+    ],
+    "notes": null
+  }
+]
