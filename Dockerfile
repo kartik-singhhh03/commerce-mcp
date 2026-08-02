@@ -1,5 +1,6 @@
-# Dockerfile for Railway (and any container) deployment of the MCP server.
-# TODO: Multi-stage build — compile TypeScript in builder, run node dist/index.js in runtime.
+# Multi-stage production image for Railway / any container host.
+# Stateless Streamable HTTP MCP server — no DB, no sticky sessions.
+
 FROM node:22-alpine AS base
 WORKDIR /app
 RUN corepack enable
@@ -10,15 +11,22 @@ RUN pnpm install --frozen-lockfile
 
 FROM base AS build
 COPY --from=deps /app/node_modules ./node_modules
-COPY . .
+COPY package.json pnpm-lock.yaml tsconfig.json tsconfig.build.json ./
+COPY src ./src
+COPY data ./data
 RUN pnpm build
+
+FROM base AS prod-deps
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile --prod
 
 FROM base AS runtime
 ENV NODE_ENV=production
+COPY --from=prod-deps /app/node_modules ./node_modules
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/package.json ./package.json
-COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/data ./data
+USER node
 EXPOSE 3000
-# TODO: Ensure process listens on process.env.PORT (Railway injects it).
+# Railway injects PORT; bootstrap reads process.env.PORT (default 3000).
 CMD ["node", "dist/index.js"]

@@ -1,11 +1,18 @@
 /**
- * Internal domain TypeScript types used by the store and services.
- *
- * Responsibility:
- * - Mirror validated mock JSON shapes as TS interfaces/types
- * - Keep tools from depending on raw JSON
+ * Domain types for the store layer.
+ * Schemas remain the single source of truth — these are re-exports of inferred types.
  */
 
-// TODO: Export Order, Payment, InventoryRecord, Warehouse, WarehouseEvent, Shipment, OperationsCase
-
-export {};
+export type {
+  Order,
+  Payment,
+  CatalogSku,
+  InventoryStock,
+  InventoryReservation,
+  InventoryDataset,
+  Warehouse,
+  WarehouseEvent,
+  WarehousesDataset,
+  Shipment,
+  OperationsCase,
+} from '../schemas/index.js';
