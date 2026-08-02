@@ -4,6 +4,9 @@ An AI-first commerce operations MCP server.
 
 When an operations employee asks *"Why hasn't order #1234 shipped?"*, an AI client investigates by composing remote MCP tools. This repository is the **deterministic system of record** — not the reasoner.
 
+![Uploading image.png…]()
+
+
 ---
 
 ## Problem
