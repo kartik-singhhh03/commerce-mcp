@@ -40,7 +40,7 @@ export function registerGetOperationsCase(
     },
     async (args) => {
       try {
-        const opsCase = cases.getCase({
+        const opsCase = await cases.getCase({
           ...(args.caseId !== undefined ? { caseId: args.caseId } : {}),
           ...(args.orderId !== undefined ? { orderId: args.orderId } : {}),
         });

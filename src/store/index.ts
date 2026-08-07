@@ -18,6 +18,15 @@ export {
   type InsertOperationsCaseInput,
 } from './mutate.js';
 
+export {
+  getOperationsCaseStore,
+  resetOperationsCaseStoreForTests,
+  PostgresOperationsCaseStore,
+  type PersistOperationsCaseInput,
+} from './operations-cases.js';
+
+export { getPrismaClient, resetPrismaClientForTests, type PrismaClientOptions } from './prisma.js';
+
 export type {
   Order,
   Payment,

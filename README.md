@@ -4,9 +4,6 @@ An AI-first commerce operations MCP server.
 
 When an operations employee asks *"Why hasn't order #1234 shipped?"*, an AI client investigates by composing remote MCP tools. This repository is the **deterministic system of record** — not the reasoner.
 
-![Uploading image.png…]()
-
-
 ---
 
 ## Problem
@@ -29,7 +26,7 @@ This server exposes **facts**, not narratives:
 - Inventory reserved or pick-blocked
 - Warehouse degraded or healthy
 - Shipment created or not
-- Operations case opened or listed
+- Operations case opened, retrieved, or listed
 
 The **AI** decides which tools to call and how to explain the answer. The **server** never embeds investigation logic.
 
@@ -42,25 +39,27 @@ AI Client (Cursor / Claude / Inspector)
         │
         │  Streamable HTTP  POST/GET /mcp
         ▼
-┌───────────────────────────────────────┐
+┌────────────────────────────────────────┐
 │  Transport (stateless createMcpHandler)│
-│  GET /health                          │
-└───────────────────┬───────────────────┘
+│  GET /health                           │
+└───────────────────┬────────────────────┘
                     ▼
-┌───────────────────────────────────────┐
-│  MCP Tools (thin AI interfaces)       │
-└───────────────────┬───────────────────┘
+┌────────────────────────────────────────┐
+│  MCP Tools (thin AI interfaces)        │
+└───────────────────┬────────────────────┘
                     ▼
-┌───────────────────────────────────────┐
-│  Services (all business rules)        │
-└───────────────────┬───────────────────┘
-                    ▼
-┌───────────────────────────────────────┐
-│  JSON Store (validated mock data)     │
-└───────────────────────────────────────┘
+┌────────────────────────────────────────┐
+│  Services (all business rules)         │
+└─────────┬────────────────────┬─────────┘
+          │                    │
+          ▼                    ▼
+┌──────────────────┐  ┌──────────────────────────┐
+│ JSON Store       │  │ PostgreSQL + Prisma      │
+│ (read-only mock) │  │ (durable OperationCase)  │
+└──────────────────┘  └──────────────────────────┘
 ```
 
-**Stack:** Node 22 · TypeScript strict · Zod v4 · Official MCP SDK v2 · Vitest · Railway
+**Stack:** Node 22 · TypeScript strict · Zod v4 · Official MCP SDK v2 · PostgreSQL · Prisma ORM · Vitest · Railway
 
 ---
 
@@ -70,8 +69,8 @@ AI Client (Cursor / Claude / Inspector)
 2. AI discovers tools via MCP `tools/list`.
 3. AI calls tools (often in parallel after `get_order`).
 4. AI synthesizes a root cause from structured facts.
-5. AI opens an operations case with `create_operations_case`.
-6. Later turns use `get_operations_case` / `list_open_operations_cases` for continuity.
+5. AI opens a durable operations case with `create_operations_case`.
+6. Later turns use `get_operations_case` / `list_open_operations_cases` for continuity (persisted across restarts in PostgreSQL).
 
 ---
 
@@ -86,7 +85,7 @@ AI Client (Cursor / Claude / Inspector)
 | `get_inventory_status` | Reservations `pick_blocked` (zone equipment) |
 | `get_warehouse_status` | `WH-EAST` **degraded**, active events |
 | `get_shipment_status` | `not_created` |
-| `create_operations_case` | `OPS-0001` opened with recommended action |
+| `create_operations_case` | `OPS-0001` opened with recommended action (durable in Postgres) |
 | `list_open_operations_cases` | Shows unresolved cases (optional `warehouseId`) |
 
 The AI concludes: payment is fine; picking is blocked at a degraded warehouse; no shipment was created.
@@ -104,9 +103,9 @@ Tools are **AI interfaces**, not bare functions. Each description teaches *when*
 | `get_inventory_status` | Reservations & pick state |
 | `get_warehouse_status` | Facility health & events |
 | `get_shipment_status` | Lifecycle or `not_created` |
-| `create_operations_case` | Escalate **after** investigation |
-| `get_operations_case` | Fetch one case |
-| `list_open_operations_cases` | Continuity — all open cases |
+| `create_operations_case` | Escalate **after** investigation (persisted to Postgres) |
+| `get_operations_case` | Fetch one case (retrieved from Postgres) |
+| `list_open_operations_cases` | Continuity — open cases (queried from Postgres) |
 
 Every tool has `title`, teaching `description`, Zod `inputSchema` / `outputSchema`, annotations, and MCP-friendly errors (`isError`, no stack traces).
 
@@ -114,23 +113,52 @@ Verified with the **official MCP Inspector** (`tools/list`, `tools/call`, struct
 
 ---
 
-## Deployment
+## PostgreSQL & Prisma Setup
 
-Stateless Streamable HTTP. No database. No sticky sessions.
+Operations cases are persisted durably in PostgreSQL via Prisma ORM.
+
+### Environment Setup
+
+Copy `.env.example` to `.env` and set `DATABASE_URL`:
+
+```env
+DATABASE_URL=postgresql://postgres:postgres@127.0.0.1:5432/commerce_ops_mcp?schema=public
+```
+
+### Prisma Commands
 
 ```bash
-pnpm install && pnpm test && pnpm build
-pnpm start                          # PORT from env
+pnpm prisma:generate         # Generate Prisma client
+pnpm prisma:migrate:dev      # Run local migrations in development
+pnpm prisma:migrate:deploy   # Run production migrations on Railway
+```
+
+---
+
+## Deployment
+
+Stateless Streamable HTTP with PostgreSQL backing for operations cases.
+
+```bash
+pnpm install && pnpm prisma:generate && pnpm test && pnpm build
+pnpm start                          # PORT and DATABASE_URL from env
 pnpm smoke                          # MCP_URL optional
 
 docker build -t commerce-ops-mcp .
-docker run --rm -p 3000:3000 -e PORT=3000 -e NODE_ENV=production commerce-ops-mcp
+docker run --rm -p 3000:3000 -e PORT=3000 -e DATABASE_URL=<postgres-url> -e NODE_ENV=production commerce-ops-mcp
+```
 
-railway up                          # Dockerfile + railway.toml
+### Railway PostgreSQL Setup
+
+1. Add a PostgreSQL database service in Railway (`railway add --database postgres`).
+2. Attach `DATABASE_URL` to your `commerce-ops-mcp` service in Railway (uses Railway's internal network: `postgresql://postgres:<password>@postgres-1zwb.railway.internal:5432/railway`).
+3. Deploy via Railway CLI (`railway up`). `Dockerfile` automatically runs `npx prisma migrate deploy` prior to launching `dist/index.js`.
+4. Verify server health:
+```bash
 curl https://<app>.up.railway.app/health
 ```
 
-**Env:** `PORT` (Railway-injected) · `HOST` · `NODE_ENV` · `ALLOWED_HOSTS` · `RAILWAY_PUBLIC_DOMAIN` · `MCP_URL` (smoke only)
+**Env:** `PORT` (Railway-injected) · `DATABASE_URL` · `HOST` · `NODE_ENV` · `ALLOWED_HOSTS` · `RAILWAY_PUBLIC_DOMAIN` · `MCP_URL` (smoke only)
 
 Cursor config:
 
@@ -140,13 +168,30 @@ Cursor config:
 
 ---
 
-## Testing
+## Testing & Durability Verification
+
+### Unit & Integration Tests
 
 ```bash
 pnpm test
 ```
 
-Coverage includes schema contracts, store load for order `1234`, services (duplicate open cases, shipment `not_created`), in-process MCP tool calls, and HTTP `/health` + `/mcp`.
+Coverage includes schema contracts, store load for order `1234`, services, in-process MCP tool calls, PostgreSQL persistence tests, and HTTP `/health` + `/mcp`.
+
+### Durability Verification
+
+Run the dedicated durability verification script to verify that cases persist across process restarts:
+
+```bash
+DATABASE_URL=<your-postgres-url> pnpm verify:durability
+```
+
+This script verifies:
+- `create_operations_case` inserts into PostgreSQL (`OPS-0001`).
+- Duplicate open case protection is enforced (`ConflictError`).
+- Simulating a server restart retains the persisted case.
+- Querying after restart retrieves `OPS-0001` intact.
+- Closing `OPS-0001` allows subsequent case creation (`OPS-0002`).
 
 Inspector (local):
 
@@ -161,19 +206,18 @@ npx @modelcontextprotocol/inspector --cli http://127.0.0.1:3000/mcp --transport 
 
 | Choice | Why | Cost |
 |--------|-----|------|
-| JSON mock, no DB | Fast take-home, fail-fast Zod load | Cases reset on restart |
-| Stateless MCP | Horizontal scale on Railway | No resumable sessions |
+| PostgreSQL for cases, JSON for datasets | Focuses database persistence on dynamic write paths | Mock catalog/inventory resets if JSON modified |
+| Stateless MCP | Horizontal scale on Railway | No resumable SSE sessions |
 | No auth | Assignment constraint | Not production-secure as-is |
 | Thin tools / fat services | Correct MCP philosophy | More files than a monolith |
-| In-memory cases only | Demonstrates write path | Not durable across deploys |
+| Auto-table initialization | Fallback for container boot robustness | Handled alongside Prisma migrations |
 
 ---
 
 ## Future work
 
 - Bearer / OAuth for remote MCP
-- Persist cases (SQLite or managed DB)
-- Close / update case tools
+- Close / update case tools via MCP surface
 - Metrics on tool latency and error rates
 - Multi-tenant warehouse partitions
 
@@ -181,6 +225,6 @@ npx @modelcontextprotocol/inspector --cli http://127.0.0.1:3000/mcp --transport 
 
 ## AI worklog summary
 
-Architecture exploration separated AI reasoning from deterministic tools. Implementation used Cursor Agent with manual review of every generated surface. Streamable HTTP was validated against MCP SDK v2 (`createMcpHandler`), not deprecated transports. Tool descriptions and open-case listing were refined for discoverability and operational continuity.
+Architecture exploration separated AI reasoning from deterministic tools. Implementation used Cursor Agent with manual review of every generated surface. Streamable HTTP was validated against MCP SDK v2 (`createMcpHandler`), not deprecated transports. Operations case persistence was upgraded to PostgreSQL + Prisma for durability across restarts.
 
 See [`docs/AI_WORKLOG.md`](docs/AI_WORKLOG.md) for the full supervised log.

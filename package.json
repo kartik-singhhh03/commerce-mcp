@@ -9,20 +9,26 @@
   "packageManager": "pnpm@10.28.0",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "build": "tsc -p tsconfig.build.json",
+    "build": "prisma generate && tsc -p tsconfig.build.json",
     "start": "node dist/index.js",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "prisma generate && tsc --noEmit",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "test": "vitest run",
+    "test": "prisma generate && vitest run",
     "test:watch": "vitest",
-    "smoke": "tsx scripts/smoke-client.ts"
+    "smoke": "tsx scripts/smoke-client.ts",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate:dev": "prisma migrate dev",
+    "prisma:migrate:deploy": "prisma migrate deploy",
+    "verify:durability": "tsx scripts/verify-durability.ts"
   },
   "dependencies": {
     "@modelcontextprotocol/node": "^2.0.0",
     "@modelcontextprotocol/server": "^2.0.0",
+    "@prisma/client": "^6.19.3",
+    "prisma": "^6.19.3",
     "zod": "^4.0.0"
   },
   "devDependencies": {

@@ -3,6 +3,7 @@ dist
 coverage
 .env
 .env.local
+.pnpm-store
 *.log
 .DS_Store
 .idea

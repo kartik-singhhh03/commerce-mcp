@@ -2,9 +2,17 @@ import { Client, StreamableHTTPClientTransport } from '@modelcontextprotocol/cli
 import { createMcpHandler } from '@modelcontextprotocol/server';
 import { afterEach, describe, expect, it } from 'vitest';
 import { createCommerceOpsServer } from '../../src/server.js';
-import { createStore, type CommerceStore } from '../../src/store/index.js';
+import {
+  createStore,
+  getPrismaClient,
+  resetOperationsCaseStoreForTests,
+  resetPrismaClientForTests,
+  type CommerceStore,
+} from '../../src/store/index.js';
 
 type McpHandler = ReturnType<typeof createMcpHandler>;
+const databaseUrl = process.env.TEST_DATABASE_URL ?? process.env.DATABASE_URL;
+const itWithPostgres = databaseUrl ? it : it.skip;
 
 async function connectClient(store: CommerceStore): Promise<{
   client: Client;
@@ -39,6 +47,29 @@ describe('MCP tools', () => {
       await handler.close();
     });
     return { client, store };
+  }
+
+  async function resetCaseStorage(): Promise<void> {
+    if (!databaseUrl) return;
+    process.env.DATABASE_URL = databaseUrl;
+    resetOperationsCaseStoreForTests();
+    const prisma = getPrismaClient({ databaseUrl });
+    await prisma.$executeRawUnsafe(`
+      CREATE TABLE IF NOT EXISTS "OperationCase" (
+        "id" TEXT NOT NULL,
+        "orderId" TEXT NOT NULL,
+        "summary" TEXT NOT NULL,
+        "rootCause" TEXT NOT NULL,
+        "severity" TEXT NOT NULL,
+        "recommendedAction" TEXT NOT NULL,
+        "status" TEXT NOT NULL,
+        "warehouseId" TEXT,
+        "createdAt" TIMESTAMP(3) NOT NULL,
+        "updatedAt" TIMESTAMP(3) NOT NULL,
+        CONSTRAINT "OperationCase_pkey" PRIMARY KEY ("id")
+      );
+    `);
+    await prisma.operationCase.deleteMany();
   }
 
   it('lists all eight commerce tools with descriptions', async () => {
@@ -117,7 +148,8 @@ describe('MCP tools', () => {
     });
   });
 
-  it('create_operations_case and get_operations_case round-trip', async () => {
+  itWithPostgres('create_operations_case and get_operations_case round-trip', async () => {
+    await resetCaseStorage();
     const { client } = await withClient();
 
     const created = await client.callTool({
@@ -156,6 +188,9 @@ describe('MCP tools', () => {
       count: 1,
       cases: [{ caseId: 'OPS-0001' }],
     });
+
+    await resetPrismaClientForTests();
+    resetOperationsCaseStoreForTests();
   });
 
   it('returns MCP-friendly errors without stack traces for missing orders', async () => {

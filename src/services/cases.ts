@@ -8,7 +8,11 @@ import {
   type ListOpenOperationsCasesInput,
   type OperationsCase,
 } from '../schemas/index.js';
-import { insertOperationsCase, type CommerceStore } from '../store/index.js';
+import {
+  getOperationsCaseStore,
+  type CommerceStore,
+  type PostgresOperationsCaseStore,
+} from '../store/index.js';
 import { OrderService } from './orders.js';
 import { parseOrderId, parseWarehouseId, validationFromZod } from './parse.js';
 
@@ -28,9 +32,14 @@ export type OpenOperationsCasesList = {
  */
 export class OperationsCaseService {
   private readonly orders: OrderService;
+  private readonly operationsCases: PostgresOperationsCaseStore;
 
-  constructor(private readonly store: CommerceStore) {
+  constructor(
+    private readonly store: CommerceStore,
+    operationsCases: PostgresOperationsCaseStore = getOperationsCaseStore(),
+  ) {
     this.orders = new OrderService(store);
+    this.operationsCases = operationsCases;
   }
 
   /**
@@ -43,7 +52,7 @@ export class OperationsCaseService {
    * @throws NotFoundError when the order does not exist
    * @throws ConflictError when an open case already exists for the order
    */
-  createCase(input: CreateOperationsCaseInput | unknown): OperationsCase {
+  async createCase(input: CreateOperationsCaseInput | unknown): Promise<OperationsCase> {
     const parsed = createOperationsCaseInputSchema.safeParse(input);
     if (!parsed.success) {
       throw validationFromZod('createCase input', parsed.error);
@@ -51,9 +60,9 @@ export class OperationsCaseService {
 
     const data = parsed.data;
     const orderId = parseOrderId(data.orderId);
-    this.orders.getOrder(orderId);
+    const order = this.orders.getOrder(orderId);
 
-    const existingOpen = this.findOpenCase(orderId);
+    const existingOpen = await this.findOpenCase(orderId);
     if (existingOpen) {
       throw new ConflictError(
         `An open operations case already exists for order ${orderId}: ${existingOpen.caseId}`,
@@ -63,7 +72,7 @@ export class OperationsCaseService {
 
     const now = new Date().toISOString();
     const opsCase: OperationsCase = {
-      caseId: this.nextCaseId(),
+      caseId: await this.nextCaseId(),
       orderId,
       status: 'open',
       summary: data.summary,
@@ -75,7 +84,7 @@ export class OperationsCaseService {
       createdBy: 'ai-copilot',
     };
 
-    return insertOperationsCase(this.store, opsCase);
+    return this.operationsCases.insert({ ...opsCase, warehouseId: order.warehouseId });
   }
 
   /**
@@ -85,7 +94,7 @@ export class OperationsCaseService {
    * @throws ValidationError when neither id is provided or input is invalid
    * @throws NotFoundError when no matching case exists
    */
-  getCase(input: GetOperationsCaseInput | unknown): OperationsCase {
+  async getCase(input: GetOperationsCaseInput | unknown): Promise<OperationsCase> {
     const parsed = getOperationsCaseInputSchema.safeParse(input);
     if (!parsed.success) {
       throw validationFromZod('getCase input', parsed.error);
@@ -94,7 +103,7 @@ export class OperationsCaseService {
     const { caseId, orderId } = parsed.data;
 
     if (caseId !== undefined) {
-      const found = this.store.getOperationsCase(caseId);
+      const found = await this.operationsCases.findById(caseId);
       if (!found) {
         throw new NotFoundError(`Operations case not found: ${caseId}`, { caseId });
       }
@@ -108,7 +117,7 @@ export class OperationsCaseService {
     const normalizedOrderId = parseOrderId(orderId);
     this.orders.getOrder(normalizedOrderId);
 
-    const cases = this.store.getOperationsCasesByOrderId(normalizedOrderId);
+    const cases = await this.operationsCases.findByOrderId(normalizedOrderId);
     if (cases.length === 0) {
       throw new NotFoundError(`No operations case found for order: ${normalizedOrderId}`, {
         orderId: normalizedOrderId,
@@ -124,7 +133,9 @@ export class OperationsCaseService {
    *
    * @throws ValidationError when input is invalid
    */
-  listOpenCases(input: ListOpenOperationsCasesInput | unknown = {}): OpenOperationsCasesList {
+  async listOpenCases(
+    input: ListOpenOperationsCasesInput | unknown = {},
+  ): Promise<OpenOperationsCasesList> {
     const parsed = listOpenOperationsCasesInputSchema.safeParse(input ?? {});
     if (!parsed.success) {
       throw validationFromZod('listOpenCases input', parsed.error);
@@ -135,8 +146,7 @@ export class OperationsCaseService {
         ? parseWarehouseId(parsed.data.warehouseId)
         : undefined;
 
-    const cases = [...this.store.casesById.values()]
-      .filter((opsCase) => opsCase.status === 'open')
+    const cases = (await this.operationsCases.listOpen())
       .filter((opsCase) => {
         if (warehouseId === undefined) return true;
         const order = this.store.getOrder(opsCase.orderId);
@@ -150,18 +160,17 @@ export class OperationsCaseService {
   /**
    * Returns the open case for an order, if any.
    */
-  private findOpenCase(orderId: string): OperationsCase | undefined {
-    return this.store
-      .getOperationsCasesByOrderId(orderId)
-      .find((opsCase) => opsCase.status === 'open');
+  private async findOpenCase(orderId: string): Promise<OperationsCase | undefined> {
+    const cases = await this.operationsCases.findByOrderId(orderId);
+    return cases.find((opsCase) => opsCase.status === 'open');
   }
 
   /**
    * Generates the next `OPS-NNNN` identifier from cases already in the store.
    */
-  private nextCaseId(): string {
+  private async nextCaseId(): Promise<string> {
     let max = 0;
-    for (const caseId of this.store.casesById.keys()) {
+    for (const caseId of await this.operationsCases.listCaseIds()) {
       const match = CASE_ID_PATTERN.exec(caseId);
       if (!match) {
         continue;

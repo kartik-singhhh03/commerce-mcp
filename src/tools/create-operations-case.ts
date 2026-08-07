@@ -41,7 +41,7 @@ export function registerCreateOperationsCase(
     },
     async (args) => {
       try {
-        const opsCase = cases.createCase(args);
+        const opsCase = await cases.createCase(args);
         return toolSuccess({
           caseId: opsCase.caseId,
           status: opsCase.status,

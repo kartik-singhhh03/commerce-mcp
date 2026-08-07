@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { ConflictError, NotFoundError, ValidationError } from '../../src/errors.js';
+import { NotFoundError, ValidationError } from '../../src/errors.js';
 import { createServices } from '../../src/services/index.js';
-import { createStore, insertOperationsCase } from '../../src/store/index.js';
+import { createStore } from '../../src/store/index.js';
 
 function services() {
   const store = createStore();
@@ -62,68 +62,3 @@ describe('ShipmentService', () => {
   });
 });
 
-describe('OperationsCaseService', () => {
-  it('creates OPS-0001 and prevents duplicate open cases', () => {
-    const { cases } = services();
-
-    const created = cases.createCase({
-      orderId: '#1234',
-      summary: 'Order has not shipped',
-      rootCause: 'Pick blocked while warehouse degraded',
-      severity: 'high',
-      recommendedAction: 'Unblock pick zone B or reallocate inventory',
-    });
-
-    expect(created.caseId).toBe('OPS-0001');
-    expect(created.status).toBe('open');
-    expect(cases.getCase({ caseId: 'OPS-0001' }).orderId).toBe('1234');
-    expect(cases.getCase({ orderId: '1234' }).caseId).toBe('OPS-0001');
-
-    expect(() =>
-      cases.createCase({
-        orderId: '1234',
-        summary: 'Duplicate',
-        rootCause: 'Duplicate',
-        severity: 'low',
-        recommendedAction: 'None',
-      }),
-    ).toThrow(ConflictError);
-  });
-
-  it('allows a new open case after the previous case is closed', () => {
-    const { store, cases } = services();
-
-    const first = cases.createCase({
-      orderId: '1234',
-      summary: 'First',
-      rootCause: 'First',
-      severity: 'medium',
-      recommendedAction: 'Close me',
-    });
-
-    insertOperationsCase(store, {
-      ...first,
-      status: 'closed',
-      updatedAt: new Date().toISOString(),
-    });
-
-    const second = cases.createCase({
-      orderId: '1234',
-      summary: 'Second',
-      rootCause: 'Still blocked',
-      severity: 'high',
-      recommendedAction: 'Escalate',
-    });
-
-    expect(second.caseId).toBe('OPS-0002');
-    expect(second.status).toBe('open');
-    expect(cases.listOpenCases({ warehouseId: 'WH-EAST' }).cases.map((c) => c.caseId)).toEqual([
-      'OPS-0002',
-    ]);
-  });
-
-  it('throws NotFoundError when no case exists', () => {
-    const { cases } = services();
-    expect(() => cases.getCase({ orderId: '1234' })).toThrow(NotFoundError);
-  });
-});

@@ -44,7 +44,7 @@ export function registerListOpenOperationsCases(
     },
     async (args) => {
       try {
-        const result = cases.listOpenCases({
+        const result = await cases.listOpenCases({
           ...(args.warehouseId !== undefined ? { warehouseId: args.warehouseId } : {}),
         });
         return toolSuccess({

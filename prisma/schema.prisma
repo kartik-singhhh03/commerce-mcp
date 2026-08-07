@@ -1,0 +1,25 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model OperationCase {
+  id                String   @id
+  orderId           String
+  summary           String
+  rootCause         String
+  severity          String
+  recommendedAction String
+  status            String
+  warehouseId       String?
+  createdAt         DateTime
+  updatedAt         DateTime
+
+  @@index([orderId])
+  @@index([status])
+  @@index([warehouseId])
+}
