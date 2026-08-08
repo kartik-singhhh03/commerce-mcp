@@ -60,7 +60,7 @@ export class OperationsCaseService {
 
     const data = parsed.data;
 
-    // Server-side guard rail for state-changing case creation
+    // Server-side guard rail for state-changing case creation (checked FIRST)
     const requiredApiKey = process.env.OPS_API_KEY ?? 'ops-secret-key';
     if (!data.apiKey || data.apiKey !== requiredApiKey) {
       throw new ValidationError(
