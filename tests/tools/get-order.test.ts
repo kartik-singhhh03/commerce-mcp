@@ -148,13 +148,33 @@ describe('MCP tools', () => {
     });
   });
 
-  itWithPostgres('create_operations_case and get_operations_case round-trip', async () => {
+  itWithPostgres('create_operations_case guardrail and get_operations_case round-trip', async () => {
     await resetCaseStorage();
     const { client } = await withClient();
 
+    // 1. Unauthenticated creation attempt without apiKey must fail
+    const unauthResult = await client.callTool({
+      name: 'create_operations_case',
+      arguments: {
+        orderId: '#1234',
+        summary: 'Order has not shipped',
+        rootCause: 'Pick blocked while WH-EAST is degraded',
+        severity: 'high',
+        recommendedAction: 'Clear pick zone B or reallocate inventory',
+      },
+    });
+
+    expect(unauthResult.isError).toBe(true);
+    expect(unauthResult.structuredContent).toMatchObject({
+      code: 'VALIDATION',
+      error: 'ValidationError',
+    });
+
+    // 2. Authorized creation with apiKey succeeds
     const created = await client.callTool({
       name: 'create_operations_case',
       arguments: {
+        apiKey: 'ops-secret-key',
         orderId: '#1234',
         summary: 'Order has not shipped',
         rootCause: 'Pick blocked while WH-EAST is degraded',
@@ -170,6 +190,7 @@ describe('MCP tools', () => {
       orderId: '1234',
     });
 
+    // 3. Read-only tool get_operations_case works without apiKey
     const fetched = await client.callTool({
       name: 'get_operations_case',
       arguments: { orderId: '1234' },
@@ -180,6 +201,7 @@ describe('MCP tools', () => {
       status: 'open',
     });
 
+    // 4. Read-only tool list_open_operations_cases works without apiKey
     const listed = await client.callTool({
       name: 'list_open_operations_cases',
       arguments: { warehouseId: 'WH-EAST' },

@@ -1,4 +1,4 @@
-import { ConflictError, NotFoundError } from '../../src/errors.js';
+import { ConflictError, NotFoundError, ValidationError } from '../../src/errors.js';
 import { createServices } from '../../src/services/index.js';
 import {
   createStore,
@@ -9,6 +9,7 @@ import {
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
 const databaseUrl = process.env.TEST_DATABASE_URL ?? process.env.DATABASE_URL;
+const apiKey = process.env.OPS_API_KEY ?? 'ops-secret-key';
 const describeWithPostgres = databaseUrl ? describe : describe.skip;
 
 function services() {
@@ -53,7 +54,7 @@ async function ensureOperationCaseTable(): Promise<void> {
   );
 }
 
-describeWithPostgres('OperationsCaseService PostgreSQL persistence', () => {
+describeWithPostgres('OperationsCaseService PostgreSQL persistence & guardrail', () => {
   beforeAll(async () => {
     await resetCaseStorage();
   });
@@ -67,10 +68,36 @@ describeWithPostgres('OperationsCaseService PostgreSQL persistence', () => {
     resetOperationsCaseStoreForTests();
   });
 
-  it('creates OPS-0001 and inserts it into PostgreSQL', async () => {
+  it('rejects unauthenticated createCase calls without valid apiKey', async () => {
+    const { cases } = services();
+
+    await expect(
+      cases.createCase({
+        orderId: '#1234',
+        summary: 'Order has not shipped',
+        rootCause: 'Pick blocked while warehouse degraded',
+        severity: 'high',
+        recommendedAction: 'Unblock pick zone B or reallocate inventory',
+      }),
+    ).rejects.toThrow(ValidationError);
+
+    await expect(
+      cases.createCase({
+        apiKey: 'wrong-key',
+        orderId: '#1234',
+        summary: 'Order has not shipped',
+        rootCause: 'Pick blocked while warehouse degraded',
+        severity: 'high',
+        recommendedAction: 'Unblock pick zone B or reallocate inventory',
+      }),
+    ).rejects.toThrow(ValidationError);
+  });
+
+  it('creates OPS-0001 when valid apiKey is provided and inserts into PostgreSQL', async () => {
     const { cases } = services();
 
     const created = await cases.createCase({
+      apiKey,
       orderId: '#1234',
       summary: 'Order has not shipped',
       rootCause: 'Pick blocked while warehouse degraded',
@@ -95,6 +122,7 @@ describeWithPostgres('OperationsCaseService PostgreSQL persistence', () => {
   it('does not lose cases when the service is restarted', async () => {
     const first = services();
     const created = await first.cases.createCase({
+      apiKey,
       orderId: '1234',
       summary: 'Persistent',
       rootCause: 'Persistent root cause',
@@ -119,6 +147,7 @@ describeWithPostgres('OperationsCaseService PostgreSQL persistence', () => {
   it('keeps duplicate open case protection', async () => {
     const { cases } = services();
     await cases.createCase({
+      apiKey,
       orderId: '1234',
       summary: 'First',
       rootCause: 'First root cause',
@@ -128,6 +157,7 @@ describeWithPostgres('OperationsCaseService PostgreSQL persistence', () => {
 
     await expect(
       cases.createCase({
+        apiKey,
         orderId: '#1234',
         summary: 'Duplicate',
         rootCause: 'Duplicate root cause',
@@ -140,6 +170,7 @@ describeWithPostgres('OperationsCaseService PostgreSQL persistence', () => {
   it('allows a new open case after the previous case is closed', async () => {
     const { cases } = services();
     const first = await cases.createCase({
+      apiKey,
       orderId: '1234',
       summary: 'First',
       rootCause: 'First',
@@ -153,6 +184,7 @@ describeWithPostgres('OperationsCaseService PostgreSQL persistence', () => {
     });
 
     const second = await cases.createCase({
+      apiKey,
       orderId: '1234',
       summary: 'Second',
       rootCause: 'Still blocked',

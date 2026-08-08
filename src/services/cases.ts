@@ -1,4 +1,4 @@
-import { ConflictError, NotFoundError } from '../errors.js';
+import { ConflictError, NotFoundError, ValidationError } from '../errors.js';
 import {
   createOperationsCaseInputSchema,
   getOperationsCaseInputSchema,
@@ -48,7 +48,7 @@ export class OperationsCaseService {
    * Rejects when an OPEN case already exists for the order.
    * Closed (and other non-open) cases do not block creation.
    *
-   * @throws ValidationError when input is invalid
+   * @throws ValidationError when input is invalid or unauthorized
    * @throws NotFoundError when the order does not exist
    * @throws ConflictError when an open case already exists for the order
    */
@@ -59,6 +59,16 @@ export class OperationsCaseService {
     }
 
     const data = parsed.data;
+
+    // Server-side guard rail for state-changing case creation
+    const requiredApiKey = process.env.OPS_API_KEY ?? 'ops-secret-key';
+    if (!data.apiKey || data.apiKey !== requiredApiKey) {
+      throw new ValidationError(
+        'Unauthorized: create_operations_case is a state-changing operation requiring a valid apiKey in input.',
+        { requiredApiKeyConfigured: Boolean(process.env.OPS_API_KEY) },
+      );
+    }
+
     const orderId = parseOrderId(data.orderId);
     const order = this.orders.getOrder(orderId);
 

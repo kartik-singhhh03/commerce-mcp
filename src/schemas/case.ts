@@ -15,7 +15,7 @@ export const operationsCaseStatusSchema = z.enum([
 
 export const operationsCaseSeveritySchema = z.enum(['low', 'medium', 'high', 'critical']);
 
-/** Persisted operations case entity (in-memory only). */
+/** Persisted operations case entity. */
 export const operationsCaseSchema = z.object({
   caseId: caseIdSchema,
   orderId: orderIdSchema,
@@ -29,11 +29,17 @@ export const operationsCaseSchema = z.object({
   createdBy: z.string().min(1).default('ai-copilot'),
 });
 
-/** Seed file schema — starts empty; runtime cases live in memory. */
+/** Seed file schema — runtime cases are persisted in PostgreSQL. */
 export const casesFileSchema = z.array(operationsCaseSchema);
 
-/** Tool input: create an operations case (AI supplies investigation fields). */
+/** Tool input: create an operations case (AI supplies investigation fields + mandatory apiKey guardrail). */
 export const createOperationsCaseInputSchema = z.object({
+  apiKey: z
+    .string()
+    .optional()
+    .describe(
+      'Authorization API key required for state-changing case creation. Required when server enforces mutation authorization.',
+    ),
   orderId: orderIdSchema.describe('Order this escalation is about (e.g. "1234" or "#1234").'),
   summary: z
     .string()
