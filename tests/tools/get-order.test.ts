@@ -211,6 +211,24 @@ describe('MCP tools', () => {
       cases: [{ caseId: 'OPS-0001' }],
     });
 
+    // 5. Duplicate authorized creation returns ConflictError
+    const duplicate = await client.callTool({
+      name: 'create_operations_case',
+      arguments: {
+        apiKey: 'ops-secret-key',
+        orderId: '#1234',
+        summary: 'Duplicate case attempt',
+        rootCause: 'Duplicate',
+        severity: 'low',
+        recommendedAction: 'None',
+      },
+    });
+    expect(duplicate.isError).toBe(true);
+    expect(duplicate.structuredContent).toMatchObject({
+      code: 'CONFLICT',
+      error: 'ConflictError',
+    });
+
     await resetPrismaClientForTests();
     resetOperationsCaseStoreForTests();
   });
